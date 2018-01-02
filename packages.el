@@ -25,6 +25,8 @@
       :modes reason-mode))
   )
 
+(defun reason/init-lsp-ocaml ())
+
 (defun reason/init-reason-mode ()
   (use-package reason-mode
     :defer t
@@ -33,7 +35,6 @@
     (progn
       (require 'lsp-mode)
       (require 'lsp-ocaml)
-
       (add-hook 'reason-mode-hook (lambda ()
                                     (add-hook 'before-save-hook 'reason/refmt-before-save nil t)))
       ;;(add-hook 'reason-mode-hook 'merlin-mode)
