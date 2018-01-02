@@ -13,8 +13,9 @@
   '(company
     utop
     (reason-mode :location local)
-    (merlin :location (recipe :fetcher github :repo "ocaml/merlin" :commit "v2.5.4" :files ("emacs/*.el")))
+    ;; (merlin :location (recipe :fetcher github :repo "ocaml/merlin" :commit "v2.5.4" :files ("emacs/*.el")))
     ;;merlin
+    lsp-ocaml
     popwin))
 
 (defun reason/post-init-company ()
@@ -30,9 +31,13 @@
     :mode ("\\.rei?\\'" . reason-mode)
     :init
     (progn
+      (require 'lsp-mode)
+      (require 'lsp-ocaml)
+
       (add-hook 'reason-mode-hook (lambda ()
                                     (add-hook 'before-save-hook 'reason/refmt-before-save nil t)))
-      (add-hook 'reason-mode-hook 'merlin-mode)
+      ;;(add-hook 'reason-mode-hook 'merlin-mode)
+      (add-hook 'reason-mode-hook #'lsp-ocaml-enable)
       (add-hook 'reason-mode-hook 'utop-minor-mode)
 
       (spacemacs|add-toggle reason-auto-refmt
