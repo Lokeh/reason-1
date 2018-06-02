@@ -15,6 +15,7 @@
     (reason-mode :location local)
     ;; (merlin :location (recipe :fetcher github :repo "ocaml/merlin" :commit "v2.5.4" :files ("emacs/*.el")))
     ;;merlin
+    lsp-mode
     lsp-ocaml
     popwin))
 
@@ -38,6 +39,8 @@
       (add-hook 'reason-mode-hook (lambda ()
                                     (add-hook 'before-save-hook 'reason/refmt-before-save nil t)))
       ;;(add-hook 'reason-mode-hook 'merlin-mode)
+      (add-hook 'tuareg-mode-hook #'lsp-ocaml-enable)
+      (add-hook 'caml-mode-hook #'lsp-ocaml-enable)
       (add-hook 'reason-mode-hook #'lsp-ocaml-enable)
       (add-hook 'reason-mode-hook 'utop-minor-mode)
 
@@ -90,30 +93,30 @@
       )
     ))
 
-(defun reason/post-init-merlin ()
-  (use-package merlin
-    :defer t
-    :init
-    (progn
-      (setq merlin-completion-with-doc t)
+;; (defun reason/post-init-merlin ()
+;;   (use-package merlin
+;;     :defer t
+;;     :init
+;;     (progn
+;;       (setq merlin-completion-with-doc t)
 
-      (spacemacs/set-leader-keys-for-major-mode 'reason-mode
-        "cp" 'merlin-project-check
-        "cv" 'merlin-goto-project-file
-        "eC" 'merlin-error-check
-        "en" 'merlin-error-next
-        "eN" 'merlin-error-prev
-        "gb" 'merlin-pop-stack
-        "gg" 'merlin-locate
-        "gG" 'spacemacs/merlin-locate-other-window
-        "gl" 'merlin-locate-ident
-        "gi" 'merlin-switch-to-ml
-        "gI" 'merlin-switch-to-mli
-        "go" 'merlin-occurrences
-        "hh" 'merlin-document
-        "ht" 'merlin-type-enclosing
-        "hT" 'merlin-type-expr
-        "rd" 'merlin-destruct)
-      )))
+;;       (spacemacs/set-leader-keys-for-major-mode 'reason-mode
+;;         "cp" 'merlin-project-check
+;;         "cv" 'merlin-goto-project-file
+;;         "eC" 'merlin-error-check
+;;         "en" 'merlin-error-next
+;;         "eN" 'merlin-error-prev
+;;         "gb" 'merlin-pop-stack
+;;         "gg" 'merlin-locate
+;;         "gG" 'spacemacs/merlin-locate-other-window
+;;         "gl" 'merlin-locate-ident
+;;         "gi" 'merlin-switch-to-ml
+;;         "gI" 'merlin-switch-to-mli
+;;         "go" 'merlin-occurrences
+;;         "hh" 'merlin-document
+;;         "ht" 'merlin-type-enclosing
+;;         "hT" 'merlin-type-expr
+;;         "rd" 'merlin-destruct)
+;;       )))
 
 ;;; packages.el ends here
