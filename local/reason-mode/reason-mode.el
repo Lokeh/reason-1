@@ -66,7 +66,8 @@
     "trait" "type"
     "use"
     "virtual"
-    "where" "when" "while"))
+    "where" "when" "while"
+    "new"))
 
 (defconst reason-mode-consts
   '("true" "false"))
