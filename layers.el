@@ -1,1 +1,1 @@
-(configuration-layer/declare-layer 'ocaml)
+(configuration-layer/declare-layer 'lsp)
