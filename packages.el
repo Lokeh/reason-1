@@ -23,8 +23,28 @@
   (message "Init lsp-reason")
   (use-package lsp-reason
     :demand t
-    :init
-    (add-hook 'reason-mode-hook #'lsp-reason-mode-enable)))
+    :init (progn
+            (add-hook 'reason-mode-hook #'lsp-reason-mode-enable))
+    :config (progn
+              (spacemacs/declare-prefix-for-mode 'reason-mode "mg" "goto")
+              (spacemacs/declare-prefix-for-mode 'reason-mode "mp" "peek")
+              (spacemacs/declare-prefix-for-mode 'reason-mode "mf" "flycheck")
+
+              (spacemacs/set-leader-keys-for-major-mode 'reason-mode
+                "gn" 'lsp-ui-find-next-reference
+                "gp" 'lsp-ui-find-prev-reference
+                "gd" 'lsp-ui-peek-find-definitions
+                "gr" 'xref-find-references
+                "pr" 'lsp-ui-peek-find-references
+                "r" 'lsp-rename
+                "tl" 'lsp-ui-sideline-mode
+                "td" 'lsp-ui-doc-mode
+                "f" 'lsp-ui-flycheck-list))))
+
+(defun reason--doc-render (str)
+  "lol"
+  (message str)
+  "lol")
 
 (defun reason/init-reason-mode ()
   (use-package reason-mode
@@ -36,10 +56,11 @@
                 (lambda ()
                   (add-hook 'before-save-hook 'reason/refmt-before-save nil t)))
 
+      (push '("reason" . reason-mode) markdown-code-lang-modes)
+
       (use-package company-lsp
         :defer t
         :init (progn
-                (message "Initialize company reason")
                 (spacemacs|add-company-backends
                   :backends company-lsp
                   :modes reason-mode)))
@@ -51,19 +72,10 @@
         :off (setq reason-auto-refmt nil)))
     :config
     (progn
-      ;; (spacemacs/declare-prefix-for-mode 'reason-mode "mc" "compile")
-      ;; (spacemacs/declare-prefix-for-mode 'reason-mode "mt" "toggle")
-      ;; (spacemacs/declare-prefix-for-mode 'reason-mode "me" "errors/eval")
-      ;; (spacemacs/declare-prefix-for-mode 'reason-mode "mg" "goto")
-      ;; (spacemacs/declare-prefix-for-mode 'reason-mode "mh" "help/show")
-      ;; (spacemacs/declare-prefix-for-mode 'reason-mode "mr" "refactor")
-      ;; (spacemacs/declare-prefix-for-mode 'reason-mode "m=" "refmt")
+      (spacemacs/declare-prefix-for-mode 'reason-mode "mt" "toggle")
 
-      ;; (spacemacs/set-leader-keys-for-major-mode 'reason-mode
-      ;;   "cr" 'refmt
-      ;;   "==" 'refmt
-      ;;   "tr" 'spacemacs/toggle-reason-auto-refmt)
-      )
-    ))
+      (spacemacs/set-leader-keys-for-major-mode 'reason-mode
+        "=" 'refmt
+        "tr" 'spacemacs/toggle-reason-auto-refmt))))
 
 ;;; packages.el ends here
